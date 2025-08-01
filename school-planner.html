@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+        }
+        
+        .modern-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        
+        .modern-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .modern-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .accent-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .accent-button:hover {
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+        }
+        
+        .success-button {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+        }
+        
+        .success-button:hover {
+            box-shadow: 0 12px 35px rgba(0, 184, 148, 0.4);
+        }
+        
+        .task-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        .class-row {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-left: 4px solid #667eea;
+        }
+        
+        .assignment-row-1 {
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+        }
+        
+        .assignment-row-2 {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        
+        .edit-mode {
+            background: rgba(255, 193, 7, 0.1) !important;
+            color: #ffc107 !important;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .modern-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modern-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Dark theme dropdown styling */
+        .modern-input option {
+            background: #1a1a2e;
+            color: white;
+            border: none;
+        }
+        
+        .modern-input option:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Additional styling for select dropdowns */
+        select.modern-input {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .tab-button:hover {
+            color: white;
+        }
+        
+        /* Table styling for dark theme */
+        .modern-card table {
+            background: transparent;
+        }
+        
+        .modern-card table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modern-card table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <header class="modern-card mx-4 mt-4 mb-8">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <span class="text-2xl font-bold text-white">C</span>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Consil</h1>
+                        <p class="text-gray-300 text-sm">Your Personal Academic Command Center</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- GPA Calculator Button -->
+                    <button onclick="toggleGPACalculator()" class="modern-button px-6 py-3 flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="font-semibold">GPA</span>
+                    </button>
+                    <!-- Settings/Utilities Button -->
+                    <button onclick="toggleSettings()" class="accent-button px-6 py-3 flex items-center space-x-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="font-semibold">Settings</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- GPA Calculator Modal -->
+        <div id="gpaModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">GPA Calculator</h2>
+                    <button onclick="toggleGPACalculator()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-100 rounded-lg p-4">
+                            <h3 class="font-semibold text-blue-800 mb-2">Unweighted GPA</h3>
+                            <div class="text-2xl font-bold text-blue-600" id="unweightedGPA">0.00</div>
+                        </div>
+                        <div class="bg-green-100 rounded-lg p-4">
+                            <h3 class="font-semibold text-green-800 mb-2">Weighted GPA</h3>
+                            <div class="text-2xl font-bold text-green-600" id="weightedGPA">0.00</div>
+                        </div>
+                    </div>
+                    <div class="border-t pt-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Class Breakdown</h3>
+                        <div id="gpaBreakdown" class="space-y-2 max-h-40 overflow-y-auto">
+                            <p class="text-gray-500 text-sm">No classes with grades yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Settings/Utilities Modal -->
+        <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Settings & Utilities</h2>
+                    <button onclick="toggleSettings()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-6">
+                    <!-- Data Management Section -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Data Management</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <button onclick="exportData()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>Export Data</span>
+                            </button>
+                            <button onclick="importData()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                </svg>
+                                <span>Import Data</span>
+                            </button>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+                    </div>
+                    <!-- Quick Actions Section -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Quick Actions</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <button onclick="resetToDefaultClasses()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                <span>Reset Classes</span>
+                            </button>
+                            <button onclick="clearAllData()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                <span>Clear All Data</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Information Section -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Information</h3>
+                        <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm text-gray-600">
+                            <p><strong>Data Storage:</strong> All data is saved locally on your device</p>
+                            <p><strong>Backup:</strong> Use Export Data to create backups, import data to restore</p>
+                            <p><strong>Privacy:</strong> No data is sent to any server</p>
+                            <p><strong>Browser:</strong> Data persists until browser cache is cleared</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tab Navigation -->
+        <div class="modern-card mb-8">
+            <div class="border-b border-gray-700">
+                <nav class="flex space-x-8 px-6" aria-label="Tabs">
+                    <button onclick="showTab('assignments')" id="assignments-tab" class="tab-button active py-6 px-1 font-medium text-lg">
+                        📚 Assignments
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Assignments Tab -->
+        <div id="assignments-content" class="tab-content hidden">
+            <!-- Class Management -->
+            <div class="modern-card p-8 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">🎓 Class Management</h2>
+                        <p class="text-gray-300">Organize your academic courses</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="toggleClassForm()" id="toggleClassFormBtn" class="modern-button px-6 py-3 text-sm">
+                            Add Class
+                        </button>
+                        <button onclick="resetToDefaultClasses()" class="accent-button px-6 py-3 text-sm">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="classForm" class="space-y-6 hidden" style="display: none;">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="classCode" class="block text-sm font-medium text-gray-300 mb-2">Class Code</label>
+                            <input type="text" id="classCode" name="classCode" placeholder="e.g., 1R, 2G, 3R" required autocomplete="off"
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                        <div>
+                            <label for="className" class="block text-sm font-medium text-gray-300 mb-2">Class Name</label>
+                            <input type="text" id="className" name="className" placeholder="e.g., Chemistry, Math" required autocomplete="off"
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" 
+                                    class="success-button px-8 py-3 text-sm font-semibold">
+                                ➕ Add Class
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-white mb-6">📚 Current Classes</h3>
+                    <div id="classList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Classes will be listed here -->
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Quick Add Form -->
+        <div class="modern-card p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">📝 Add Assignments</h2>
+                    <p class="text-gray-300">Add new assignments to your planner</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="toggleForm()" id="toggleFormBtn" class="modern-button px-6 py-3 text-sm">
+                        📋 Show Form
+                    </button>
+                </div>
+            </div>
+                
+                <form id="taskForm" class="space-y-6 hidden" style="display: none;">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <label for="taskClass" class="block text-sm font-medium text-gray-300 mb-2">🎓 Class</label>
+                            <select id="taskClass" name="taskClass" required 
+                                    class="modern-input w-full px-4 py-3 text-sm">
+                                <option value="">Select Class</option>
+                                <!-- Classes will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="taskTitle" class="block text-sm font-medium text-gray-300 mb-2">📝 Assignment Name</label>
+                            <input type="text" id="taskTitle" name="taskTitle" required autocomplete="off"
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                        <div>
+                            <label for="taskType" class="block text-sm font-medium text-gray-300 mb-2">📋 Type</label>
+                            <select id="taskType" name="taskType" 
+                                    class="modern-input w-full px-4 py-3 text-sm">
+                                <option value="Project">Project</option>
+                                <option value="Homework">Homework</option>
+                                <option value="Final">Final</option>
+                                <option value="Test">Test</option>
+                                <option value="Quiz">Quiz</option>
+                                <option value="Assignment">Assignment</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="points" class="block text-sm font-medium text-gray-300 mb-2">⭐ Points</label>
+                            <input type="number" id="points" name="points" value="100" 
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <label for="method" class="block text-sm font-medium text-gray-300 mb-2">📍 Method</label>
+                            <select id="method" name="method" 
+                                    class="modern-input w-full px-4 py-3 text-sm">
+                                <option value="In Class">In Class</option>
+                                <option value="Testing Center">Testing Center</option>
+                                <option value="Online">Online</option>
+                                <option value="Take Home">Take Home</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="dueDate" class="block text-sm font-medium text-gray-300 mb-2">📅 Due Date</label>
+                            <input type="date" id="dueDate" name="dueDate" required 
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                        <div>
+                            <label for="grade" class="block text-sm font-medium text-gray-300 mb-2">📊 Grade</label>
+                            <input type="text" id="grade" name="grade" placeholder="A, B, C, D, F or %" autocomplete="off"
+                                   class="modern-input w-full px-4 py-3 text-sm">
+                        </div>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-300 mb-2">📈 Status</label>
+                            <select id="status" name="status" 
+                                    class="modern-input w-full px-4 py-3 text-sm">
+                                <option value="pending">⏳ Pending</option>
+                                <option value="done">✅ Done</option>
+                                <option value="missed">❌ Missed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="notes" class="block text-sm font-medium text-gray-300 mb-2">📋 Notes</label>
+                        <input type="text" id="notes" name="notes" placeholder="Additional details..." autocomplete="off"
+                               class="modern-input w-full px-4 py-3 text-sm">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="toggleForm()" 
+                                class="accent-button px-6 py-3 text-sm font-semibold">
+                            ❌ Cancel
+                        </button>
+                        <button type="submit" 
+                                class="success-button px-8 py-3 text-sm font-semibold">
+                            ➕ Add Assignment
+                        </button>
+                    </div>
+                </form>
+        </div>
+
+        <!-- Statistics Bar -->
+        <div class="modern-card p-6 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="stats-card p-6">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="finishedCount">0</div>
+                    <div class="text-sm text-gray-300">✅ Finished</div>
+                </div>
+                <div class="stats-card p-6">
+                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="pendingCount">0</div>
+                    <div class="text-sm text-gray-300">⏳ Pending</div>
+                </div>
+                <div class="stats-card p-6">
+                    <div class="text-3xl font-bold text-red-400 mb-2" id="missedCount">0</div>
+                    <div class="text-sm text-gray-300">❌ Missed</div>
+                </div>
+                <div class="stats-card p-6">
+                    <div class="text-3xl font-bold text-blue-400 mb-2" id="totalCount">0</div>
+                    <div class="text-sm text-gray-300">📊 Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="modern-card p-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">🔍 Search Assignments</label>
+                    <input type="text" id="searchInput" placeholder="Search by name, notes, or class..." 
+                           class="modern-input w-full px-4 py-3 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">📊 Filter by Status</label>
+                    <select id="statusFilter" class="modern-input w-full px-4 py-3 text-sm">
+                        <option value="">All Status</option>
+                        <option value="pending">⏳ Pending</option>
+                        <option value="done">✅ Done</option>
+                        <option value="missed">❌ Missed</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">🎓 Filter by Class</label>
+                    <select id="classFilter" class="modern-input w-full px-4 py-3 text-sm">
+                        <option value="">All Classes</option>
+                        <!-- Classes will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button onclick="clearFilters()" class="accent-button px-6 py-3 text-sm font-semibold">
+                        🗑️ Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Sheets Style Table -->
+        <div class="modern-card overflow-hidden">
+            <div class="border-b border-gray-700">
+                <div class="px-8 py-6 flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-white">📊 Assignment Tracker</h2>
+                    <div class="text-sm text-gray-300">
+                        <span id="filteredCount">0</span> of <span id="totalCount">0</span> assignments shown
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-white" style="border-collapse: collapse;">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">🎓 Class</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📝 Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📋 Notes</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📍 Method</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">⭐ Points</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📊 Grade</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📅 When Due</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📈 Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">⚡ Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTableBody" class="text-white">
+                        <!-- Table will be empty until tasks are added -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+    </main>
+
+    <script>
+        let taskCounter = 0;
+        let tasks = []; // Store all tasks
+        
+        // Class management
+        let classes = [
+            { code: '1R', name: '', grade: '', weighted: false },
+            { code: '2R', name: '', grade: '', weighted: false },
+            { code: '3R', name: '', grade: '', weighted: false },
+            { code: '4R', name: '', grade: '', weighted: false },
+            { code: '1G', name: '', grade: '', weighted: false },
+            { code: '2G', name: '', grade: '', weighted: false },
+            { code: '3G', name: '', grade: '', weighted: false },
+            { code: '4G', name: '', grade: '', weighted: false }
+        ];
+        
+        // Local Storage Functions
+        function saveData() {
+            try {
+                localStorage.setItem('schoolPlanner_classes', JSON.stringify(classes));
+                localStorage.setItem('schoolPlanner_tasks', JSON.stringify(tasks));
+                localStorage.setItem('schoolPlanner_taskCounter', taskCounter.toString());
+                console.log('Data saved successfully');
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        }
+        
+        function loadData() {
+            try {
+                // Load classes
+                const savedClasses = localStorage.getItem('schoolPlanner_classes');
+                if (savedClasses) {
+                    classes = JSON.parse(savedClasses);
+                }
+                
+                // Load tasks
+                const savedTasks = localStorage.getItem('schoolPlanner_tasks');
+                if (savedTasks) {
+                    tasks = JSON.parse(savedTasks);
+                }
+                
+                // Load task counter
+                const savedTaskCounter = localStorage.getItem('schoolPlanner_taskCounter');
+                if (savedTaskCounter) {
+                    taskCounter = parseInt(savedTaskCounter);
+                }
+                
+                console.log('Data loaded successfully');
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+        
+        // Auto-save function (called after any data changes)
+        function autoSave() {
+            saveData();
+            showSaveIndicator();
+        }
+        
+        // Show a brief save indicator
+        function showSaveIndicator() {
+            // Create or update save indicator
+            let indicator = document.getElementById('saveIndicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'saveIndicator';
+                indicator.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transform translate-y-full transition-transform duration-300';
+                indicator.textContent = 'Data saved!';
+                document.body.appendChild(indicator);
+            }
+            
+            // Show the indicator
+            indicator.classList.remove('translate-y-full');
+            
+            // Hide after 2 seconds
+            setTimeout(() => {
+                indicator.classList.add('translate-y-full');
+            }, 2000);
+        }
+        
+        // Display all saved tasks
+        function displayAllTasks() {
+            const tbody = document.getElementById('taskTableBody');
+            tbody.innerHTML = ''; // Clear existing content
+            
+            // Group tasks by class
+            const tasksByClass = {};
+            tasks.forEach(task => {
+                if (!tasksByClass[task.class]) {
+                    tasksByClass[task.class] = [];
+                }
+                tasksByClass[task.class].push(task);
+            });
+            
+            // Sort classes and display tasks
+            const sortedClasses = Object.keys(tasksByClass).sort(compareClassCodes);
+            
+            sortedClasses.forEach(classCode => {
+                // Create class header
+                const header = createClassHeader(classCode);
+                tbody.appendChild(header);
+                
+                // Add tasks for this class
+                tasksByClass[classCode].forEach(task => {
+                    const row = document.createElement('tr');
+                    row.dataset.taskId = task.id;
+                    
+                    // Determine row styling for dark theme
+                    const rowCount = tbody.children.length;
+                    const isEven = (rowCount % 2 === 0);
+                    row.className = isEven ? 'bg-gray-800/30' : 'bg-gray-700/30';
+                    
+                    row.innerHTML = `
+                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.class}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-white font-medium">${task.name}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${task.notes || ''}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${task.method || ''}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.points || ''}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.grade || ''}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${formatDate(task.dueDate)}</td>
+                        <td class="px-6 py-4 border-r border-gray-700 text-white">${getStatusDisplay(task.status)}</td>
+                        <td class="px-6 py-4">
+                            <button onclick="editTask(${task.id})" class="modern-button px-3 py-1 text-xs mr-2">Edit</button>
+                            <button onclick="deleteTask(${task.id})" class="accent-button px-3 py-1 text-xs">Delete</button>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+            });
+            
+            updateStatistics();
+            updateFilteredCount();
+        }
+        
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                button.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            document.getElementById(tabName + '-tab').classList.add('active', 'border-blue-500', 'text-blue-600');
+            document.getElementById(tabName + '-tab').classList.remove('border-transparent', 'text-gray-500');
+        }
+        
+        // Form toggle functionality
+        function toggleForm() {
+            const form = document.getElementById('taskForm');
+            const button = document.getElementById('toggleFormBtn');
+            
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                button.textContent = 'Hide Form';
+                button.className = 'bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm';
+            } else {
+                form.style.display = 'none';
+                button.textContent = 'Show Form';
+                button.className = 'bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-sm';
+            }
+        }
+        
+
+        
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const taskData = {
+                id: taskCounter++,
+                class: formData.get('taskClass'),
+                type: formData.get('taskType'),
+                name: formData.get('taskTitle'),
+                notes: formData.get('notes'),
+                method: formData.get('method'),
+                points: formData.get('points'),
+                grade: formData.get('grade'),
+                dueDate: formData.get('dueDate'),
+                status: formData.get('status')
+            };
+            
+            addTaskToTable(taskData);
+            e.target.reset();
+            toggleForm(); // Hide form after adding
+        });
+        
+        function addTaskToTable(taskData) {
+            // Add task to our tasks array
+            tasks.push(taskData);
+            
+            const tbody = document.getElementById('taskTableBody');
+            
+            // Find the correct class header and insert after it
+            const classHeaders = tbody.querySelectorAll('.class-header');
+            let targetHeader = null;
+            let insertAfterHeader = null;
+            
+            // Find the matching class header
+            for (let header of classHeaders) {
+                const headerText = header.querySelector('td').textContent;
+                if (headerText.includes(taskData.class)) {
+                    targetHeader = header;
+                    break;
+                }
+            }
+            
+            // If no header exists, create one and insert in correct order
+            if (!targetHeader) {
+                targetHeader = createClassHeader(taskData.class);
+                insertClassHeaderInOrder(tbody, targetHeader);
+            }
+            
+            const row = document.createElement('tr');
+            
+                                // Alternate row colors for dark theme
+                    const rowCount = tbody.children.length;
+                    const isEven = (rowCount % 2 === 0);
+                    row.className = isEven ? 'bg-gray-800/30' : 'bg-gray-700/30';
+                    row.dataset.taskId = taskData.id;
+            
+            // Get status display
+            const statusDisplay = getStatusDisplay(taskData.status);
+            
+            row.innerHTML = `
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.class}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm font-medium">${taskData.name}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.notes}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.method}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.points}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.grade}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${formatDate(taskData.dueDate)}</td>
+                <td class="px-4 py-3 border-r border-gray-200 text-sm">${statusDisplay}</td>
+                <td class="px-4 py-3 text-sm">
+                    <button onclick="editTask(${taskData.id})" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-yellow-600">Edit</button>
+                    <button onclick="deleteTask(${taskData.id})" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">Delete</button>
+                </td>
+            `;
+            
+            // Insert the row right after the class header
+            if (targetHeader) {
+                targetHeader.insertAdjacentElement('afterend', row);
+            } else {
+                tbody.appendChild(row);
+            }
+            
+            updateStatistics();
+            autoSave(); // Save data to localStorage
+        }
+        
+        function createClassHeader(classCode) {
+            const header = document.createElement('tr');
+            
+            // Determine color based on class code
+            let headerClass = 'class-header bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-b border-gray-700';
+            let textClass = 'px-6 py-4 font-semibold text-white border-r border-gray-700';
+            
+            if (classCode.includes('R')) {
+                headerClass = 'class-header bg-gradient-to-r from-red-500/10 to-pink-500/10 border-b border-gray-700';
+                textClass = 'px-6 py-4 font-semibold text-white border-r border-gray-700';
+            } else if (classCode.includes('G')) {
+                headerClass = 'class-header bg-gradient-to-r from-green-500/10 to-teal-500/10 border-b border-gray-700';
+                textClass = 'px-6 py-4 font-semibold text-white border-r border-gray-700';
+            }
+            
+            header.className = headerClass;
+            header.dataset.classCode = classCode;
+            header.innerHTML = `
+                <td colspan="8" class="${textClass}">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-br ${classCode.includes('R') ? 'from-red-500 to-pink-500' : 'from-green-500 to-teal-500'} rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-xs">${classCode}</span>
+                        </div>
+                        <span class="font-bold">${classCode} - ${getClassName(classCode)}</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <button onclick="deleteClassCategory('${classCode}')" class="accent-button px-3 py-1 text-xs">
+                        🗑️ Delete Category
+                    </button>
+                </td>
+            `;
+            return header;
+        }
+        
+        function insertClassHeaderInOrder(tbody, newHeader) {
+            const classHeaders = tbody.querySelectorAll('.class-header');
+            const newClassCode = newHeader.querySelector('td').textContent.split(' - ')[0];
+            
+            // Find the correct position to insert
+            let insertBefore = null;
+            for (let header of classHeaders) {
+                const headerText = header.querySelector('td').textContent;
+                const headerClassCode = headerText.split(' - ')[0];
+                
+                if (compareClassCodes(newClassCode, headerClassCode) < 0) {
+                    insertBefore = header;
+                    break;
+                }
+            }
+            
+            if (insertBefore) {
+                tbody.insertBefore(newHeader, insertBefore);
+            } else {
+                tbody.appendChild(newHeader);
+            }
+        }
+        
+        function compareClassCodes(code1, code2) {
+            // Extract period and letter (e.g., "1R" -> period=1, letter="R")
+            const period1 = parseInt(code1.match(/\d+/)[0]);
+            const letter1 = code1.match(/[A-Z]/)[0];
+            const period2 = parseInt(code2.match(/\d+/)[0]);
+            const letter2 = code2.match(/[A-Z]/)[0];
+            
+            // Compare periods first, then letters
+            if (period1 !== period2) {
+                return period1 - period2;
+            }
+            return letter1.localeCompare(letter2);
+        }
+        
+        function getClassName(classCode) {
+            const classObj = classes.find(c => c.code === classCode);
+            return classObj ? classObj.name : 'Class';
+        }
+        
+        function getStatusDisplay(status) {
+            const statusMap = {
+                'pending': '⏳ Pending',
+                'done': '✅ Done',
+                'missed': '❌ Missed'
+            };
+            return statusMap[status] || '⏳ Pending';
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function updateStatistics() {
+            const tbody = document.getElementById('taskTableBody');
+            const rows = tbody.querySelectorAll('tr');
+            
+            let finished = 0, pending = 0, missed = 0;
+            
+            rows.forEach(row => {
+                // Only count rows that have a task ID (actual assignments, not class headers)
+                if (row.dataset.taskId) {
+                    const statusCell = row.cells[7]; // Status column
+                    const statusText = statusCell.textContent;
+                    
+                    if (statusText.includes('✅')) finished++;
+                    else if (statusText.includes('⏳')) pending++;
+                    else if (statusText.includes('❌')) missed++;
+                }
+            });
+            
+            document.getElementById('finishedCount').textContent = finished;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('missedCount').textContent = missed;
+            document.getElementById('totalCount').textContent = finished + pending + missed;
+        }
+        
+        function editTask(taskId) {
+            const row = document.querySelector(`tr[data-task-id="${taskId}"]`);
+            if (!row) return;
+            
+            const cells = row.cells;
+            const originalContent = row.innerHTML;
+            
+            // Add edit mode styling
+            row.classList.add('edit-mode');
+            
+            // Create editable inputs for the new table structure
+            const classInput = `<input type="text" value="${cells[0].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const nameInput = `<input type="text" value="${cells[1].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const notesInput = `<input type="text" value="${cells[2].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const methodSelect = `<select class="w-full px-2 py-1 border rounded text-black">
+                <option value="In Class" ${cells[3].textContent === 'In Class' ? 'selected' : ''}>In Class</option>
+                <option value="Testing Center" ${cells[3].textContent === 'Testing Center' ? 'selected' : ''}>Testing Center</option>
+                <option value="Online" ${cells[3].textContent === 'Online' ? 'selected' : ''}>Online</option>
+                <option value="Take Home" ${cells[3].textContent === 'Take Home' ? 'selected' : ''}>Take Home</option>
+            </select>`;
+            const pointsInput = `<input type="number" value="${cells[4].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const gradeInput = `<input type="text" value="${cells[5].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const dueDateInput = `<input type="date" value="${cells[6].textContent}" class="w-full px-2 py-1 border rounded text-black">`;
+            const statusSelect = `<select class="w-full px-2 py-1 border rounded text-black">
+                <option value="pending" ${cells[7].textContent.includes('⏳') ? 'selected' : ''}>⏳ Pending</option>
+                <option value="done" ${cells[7].textContent.includes('✅') ? 'selected' : ''}>✅ Done</option>
+                <option value="missed" ${cells[7].textContent.includes('❌') ? 'selected' : ''}>❌ Missed</option>
+            </select>`;
+            
+            const actionButtons = `
+                <button onclick="saveTask(${taskId})" class="bg-green-500 text-white px-2 py-1 rounded text-sm mr-1 hover:bg-green-600">Save</button>
+                <button onclick="cancelEdit(${taskId})" class="bg-gray-500 text-white px-2 py-1 rounded text-sm hover:bg-gray-600">Cancel</button>
+            `;
+            
+            row.innerHTML = `
+                <td class="px-4 py-3 border-r border-gray-200">${classInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${nameInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${notesInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${methodSelect}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${pointsInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${gradeInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${dueDateInput}</td>
+                <td class="px-4 py-3 border-r border-gray-200">${statusSelect}</td>
+                <td class="px-4 py-3">${actionButtons}</td>
+            `;
+            
+            // Store original content for cancel
+            row.dataset.originalContent = originalContent;
+        }
+        
+        function saveTask(taskId) {
+            const row = document.querySelector(`tr[data-task-id="${taskId}"]`);
+            if (!row) return;
+            
+            const cells = row.cells;
+            const inputs = row.querySelectorAll('input, select');
+            
+            // Update cell content for new table structure
+            cells[0].textContent = inputs[0].value;
+            cells[1].textContent = inputs[1].value;
+            cells[2].textContent = inputs[2].value;
+            cells[3].textContent = inputs[3].value;
+            cells[4].textContent = inputs[4].value;
+            cells[5].textContent = inputs[5].value;
+            cells[6].textContent = formatDate(inputs[6].value);
+            cells[7].textContent = getStatusDisplay(inputs[7].value);
+            
+            // Update task in tasks array
+            const taskIndex = tasks.findIndex(task => task.id === taskId);
+            if (taskIndex !== -1) {
+                tasks[taskIndex] = {
+                    ...tasks[taskIndex],
+                    class: inputs[0].value,
+                    name: inputs[1].value,
+                    notes: inputs[2].value,
+                    method: inputs[3].value,
+                    points: inputs[4].value,
+                    grade: inputs[5].value,
+                    dueDate: inputs[6].value,
+                    status: inputs[7].value
+                };
+            }
+            
+            // Restore original styling and action buttons
+            row.classList.remove('edit-mode');
+            const rowCount = Array.from(row.parentNode.children).indexOf(row);
+            const isEven = (rowCount % 2 === 0);
+            row.className = isEven ? 'bg-gray-800/30' : 'bg-gray-700/30';
+            
+            cells[8].innerHTML = `
+                <button onclick="editTask(${taskId})" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-yellow-600">Edit</button>
+                <button onclick="deleteTask(${taskId})" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">Delete</button>
+            `;
+            
+            updateStatistics();
+            autoSave(); // Save data to localStorage
+        }
+        
+        function cancelEdit(taskId) {
+            const row = document.querySelector(`tr[data-task-id="${taskId}"]`);
+            if (!row) return;
+            
+            // Restore original content
+            row.innerHTML = row.dataset.originalContent;
+            row.classList.remove('edit-mode');
+            
+            // Restore original styling for dark theme
+            const rowCount = Array.from(row.parentNode.children).indexOf(row);
+            const isEven = (rowCount % 2 === 0);
+            row.className = isEven ? 'bg-gray-800/30' : 'bg-gray-700/30';
+        }
+        
+        function deleteTask(taskId) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                const row = document.querySelector(`tr[data-task-id="${taskId}"]`);
+                if (row) {
+                    row.remove();
+                    // Remove from tasks array
+                    tasks = tasks.filter(task => task.id !== taskId);
+                    updateStatistics();
+                    autoSave(); // Save data to localStorage
+                }
+            }
+        }
+        
+
+        
+
+        
+        // Class management functions
+        function toggleClassForm() {
+            const form = document.getElementById('classForm');
+            const button = document.getElementById('toggleClassFormBtn');
+            
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                button.textContent = 'Cancel';
+                button.className = 'bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm';
+            } else {
+                form.style.display = 'none';
+                button.textContent = 'Add Class';
+                button.className = 'bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 text-sm';
+            }
+        }
+        
+        function addClass(classCode, className) {
+            // Check if class already exists
+            const existingClass = classes.find(c => c.code === classCode);
+            if (existingClass) {
+                alert('Class with this code already exists!');
+                return false;
+            }
+            
+            classes.push({ code: classCode, name: className });
+            updateClassList();
+            updateClassSelect();
+            autoSave(); // Save data to localStorage
+            return true;
+        }
+        
+        function removeClass(classCode) {
+            // Check if class has assignments
+            const assignments = document.querySelectorAll(`tr[data-task-id] td:first-child`);
+            let hasAssignments = false;
+            assignments.forEach(cell => {
+                if (cell.textContent === classCode) {
+                    hasAssignments = true;
+                }
+            });
+            
+            if (hasAssignments) {
+                if (!confirm('This class has assignments. Are you sure you want to remove it?')) {
+                    return;
+                }
+                // Remove assignments for this class
+                const rowsToRemove = document.querySelectorAll(`tr[data-task-id]`);
+                rowsToRemove.forEach(row => {
+                    if (row.cells[0].textContent === classCode) {
+                        row.remove();
+                    }
+                });
+                updateStatistics();
+            }
+            
+            classes = classes.filter(c => c.code !== classCode);
+            updateClassList();
+            updateClassSelect();
+            autoSave(); // Save data to localStorage
+        }
+        
+        function updateClassList() {
+            const classList = document.getElementById('classList');
+            classList.innerHTML = '';
+            
+            classes.forEach(cls => {
+                // Determine color based on class code
+                let cardClass = 'modern-card p-6 flex justify-between items-center relative';
+                let codeClass = 'font-bold text-white text-xl';
+                let accentColor = 'from-purple-500 to-pink-500';
+                
+                if (cls.code.includes('R')) {
+                    accentColor = 'from-red-500 to-pink-500';
+                } else if (cls.code.includes('G')) {
+                    accentColor = 'from-green-500 to-teal-500';
+                }
+                
+                const classCard = document.createElement('div');
+                classCard.className = cardClass;
+                classCard.innerHTML = `
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 bg-gradient-to-br ${accentColor} rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">${cls.code}</span>
+                            </div>
+                            <div>
+                                <div class="${codeClass}">${cls.code}</div>
+                                <div class="text-sm text-gray-300" id="className-${cls.code}">${cls.name || ''}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <label class="text-xs text-gray-400">Grade:</label>
+                                <select onchange="updateClassGrade('${cls.code}', this.value)" class="modern-input text-xs px-3 py-1" autocomplete="off">
+                                    <option value="" style="background-color: #1a1a2e; color: white;">Select Grade</option>
+                                    <option value="A+" ${cls.grade === 'A+' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">A+</option>
+                                    <option value="A" ${cls.grade === 'A' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">A</option>
+                                    <option value="A-" ${cls.grade === 'A-' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">A-</option>
+                                    <option value="B+" ${cls.grade === 'B+' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">B+</option>
+                                    <option value="B" ${cls.grade === 'B' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">B</option>
+                                    <option value="B-" ${cls.grade === 'B-' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">B-</option>
+                                    <option value="C+" ${cls.grade === 'C+' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">C+</option>
+                                    <option value="C" ${cls.grade === 'C' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">C</option>
+                                    <option value="C-" ${cls.grade === 'C-' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">C-</option>
+                                    <option value="D+" ${cls.grade === 'D+' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">D+</option>
+                                    <option value="D" ${cls.grade === 'D' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">D</option>
+                                    <option value="D-" ${cls.grade === 'D-' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">D-</option>
+                                    <option value="F" ${cls.grade === 'F' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">F</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" ${cls.weighted ? 'checked' : ''} onchange="toggleWeighted('${cls.code}', this.checked)" class="w-4 h-4 text-blue-600 bg-transparent border-gray-400 rounded focus:ring-blue-500">
+                                    <span class="text-xs text-gray-300">Weighted</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editClassName('${cls.code}')" class="modern-button px-3 py-2 text-xs">
+                            Edit
+                        </button>
+                        <button onclick="removeClass('${cls.code}')" class="accent-button px-3 py-2 text-xs">
+                            Remove
+                        </button>
+                    </div>
+                `;
+                classList.appendChild(classCard);
+            });
+        }
+        
+        function updateClassSelect() {
+            const select = document.getElementById('taskClass');
+            const currentValue = select.value;
+            
+            // Keep the "Select Class" option
+            select.innerHTML = '<option value="">Select Class</option>';
+            
+            classes.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls.code;
+                option.textContent = `${cls.code} - ${cls.name}`;
+                option.style.backgroundColor = '#1a1a2e';
+                option.style.color = 'white';
+                select.appendChild(option);
+            });
+            
+            // Restore the previous value if it still exists
+            if (currentValue && classes.find(c => c.code === currentValue)) {
+                select.value = currentValue;
+            }
+        }
+        
+        function editClassName(classCode) {
+            const classObj = classes.find(c => c.code === classCode);
+            if (!classObj) return;
+            
+            const newName = prompt('Enter new class name:', classObj.name);
+            if (newName && newName.trim() !== '') {
+                classObj.name = newName.trim();
+                updateClassList();
+                updateClassSelect();
+                autoSave(); // Save data to localStorage
+            }
+        }
+        
+        function updateClassGrade(classCode, grade) {
+            const classObj = classes.find(c => c.code === classCode);
+            if (classObj) {
+                classObj.grade = grade;
+                updateGPACalculator();
+                autoSave(); // Save data to localStorage
+            }
+        }
+        
+        function toggleWeighted(classCode, isWeighted) {
+            const classObj = classes.find(c => c.code === classCode);
+            if (classObj) {
+                classObj.weighted = isWeighted;
+                updateGPACalculator();
+                autoSave(); // Save data to localStorage
+            }
+        }
+        
+        function toggleGPACalculator() {
+            const modal = document.getElementById('gpaModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                updateGPACalculator();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+        
+        function updateGPACalculator() {
+            let unweightedTotal = 0;
+            let weightedTotal = 0;
+            let totalClasses = 0;
+            let breakdown = [];
+            
+            classes.forEach(cls => {
+                if (cls.grade && cls.grade !== '') {
+                    const gradePoints = getGradePoints(cls.grade);
+                    const weightedPoints = cls.weighted ? getWeightedGradePoints(cls.grade) : gradePoints;
+                    
+                    // All classes contribute to unweighted GPA (without boost)
+                    unweightedTotal += gradePoints;
+                    
+                    // Weighted classes contribute to weighted GPA (with boost)
+                    if (cls.weighted) {
+                        weightedTotal += weightedPoints;
+                    } else {
+                        weightedTotal += gradePoints;
+                    }
+                    
+                    totalClasses++;
+                    
+                    breakdown.push({
+                        class: cls.code,
+                        name: cls.name || 'Unnamed Class',
+                        grade: cls.grade,
+                        weighted: cls.weighted,
+                        unweightedPoints: gradePoints,
+                        weightedPoints: cls.weighted ? weightedPoints : gradePoints
+                    });
+                }
+            });
+            
+            const unweightedGPA = totalClasses > 0 ? (unweightedTotal / totalClasses).toFixed(2) : '0.00';
+            const weightedGPA = totalClasses > 0 ? (weightedTotal / totalClasses).toFixed(2) : '0.00';
+            
+            document.getElementById('unweightedGPA').textContent = unweightedGPA;
+            document.getElementById('weightedGPA').textContent = weightedGPA;
+            
+            // Update breakdown
+            const breakdownDiv = document.getElementById('gpaBreakdown');
+            if (breakdown.length === 0) {
+                breakdownDiv.innerHTML = '<p class="text-gray-500 text-sm">No classes with grades yet</p>';
+            } else {
+                breakdownDiv.innerHTML = breakdown.map(cls => `
+                    <div class="flex justify-between items-center text-sm">
+                        <div>
+                            <span class="font-medium">${cls.class}</span>
+                            <span class="text-gray-500"> - ${cls.name}</span>
+                            ${cls.weighted ? '<span class="text-blue-600 text-xs ml-1">(W)</span>' : ''}
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-medium">${cls.grade}</span>
+                            <span class="text-gray-500">(${cls.weighted ? cls.weightedPoints.toFixed(1) : cls.unweightedPoints.toFixed(1)})</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function getGradePoints(grade) {
+            const gradeMap = {
+                'A+': 4.0, 'A': 4.0, 'A-': 3.7,
+                'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+                'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+                'D+': 1.3, 'D': 1.0, 'D-': 0.7,
+                'F': 0.0
+            };
+            return gradeMap[grade] || 0.0;
+        }
+        
+        function getWeightedGradePoints(grade) {
+            const basePoints = getGradePoints(grade);
+            // Add 1.0 for weighted classes (standard weighting system)
+            return Math.min(5.0, basePoints + 1.0);
+        }
+        
+        function deleteClassCategory(classCode) {
+            if (confirm(`Are you sure you want to delete the ${classCode} category and all its assignments?`)) {
+                const tbody = document.getElementById('taskTableBody');
+                const rows = tbody.querySelectorAll('tr');
+                
+                // Find and remove the class header
+                let headerRow = null;
+                let rowsToRemove = [];
+                
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    
+                    if (row.classList.contains('class-header') && row.dataset.classCode === classCode) {
+                        headerRow = row;
+                        rowsToRemove.push(row);
+                    } else if (headerRow && row.dataset.taskId) {
+                        // Check if this assignment belongs to the class being deleted
+                        const assignmentClass = row.cells[0].textContent;
+                        if (assignmentClass === classCode) {
+                            rowsToRemove.push(row);
+                        } else if (row.classList.contains('class-header')) {
+                            // Stop when we reach the next class header
+                            break;
+                        }
+                    }
+                }
+                
+                // Remove all rows for this class
+                rowsToRemove.forEach(row => row.remove());
+                
+                // Remove tasks from tasks array
+                tasks = tasks.filter(task => task.class !== classCode);
+                
+                // Update statistics
+                updateStatistics();
+                
+                // Update filtered count
+                updateFilteredCount();
+                
+                // Save data
+                autoSave();
+            }
+        }
+        
+        function resetToDefaultClasses() {
+            if (confirm('This will reset all classes to the default 1R-4R and 1G-4G. Are you sure?')) {
+                classes = [
+                    { code: '1R', name: '', grade: '', weighted: false },
+                    { code: '2R', name: '', grade: '', weighted: false },
+                    { code: '3R', name: '', grade: '', weighted: false },
+                    { code: '4R', name: '', grade: '', weighted: false },
+                    { code: '1G', name: '', grade: '', weighted: false },
+                    { code: '2G', name: '', grade: '', weighted: false },
+                    { code: '3G', name: '', grade: '', weighted: false },
+                    { code: '4G', name: '', grade: '', weighted: false }
+                ];
+                updateClassList();
+                updateClassSelect();
+                updateGPACalculator();
+                autoSave(); // Save data to localStorage
+            }
+        }
+        
+        // Class form submission
+        document.getElementById('classForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const classCode = formData.get('classCode').toUpperCase();
+            const className = formData.get('className');
+            
+            if (addClass(classCode, className)) {
+                e.target.reset();
+                toggleClassForm();
+            }
+        });
+        
+        // Search and filter functionality
+        function updateClassFilter() {
+            const classFilter = document.getElementById('classFilter');
+            const currentValue = classFilter.value;
+            
+            // Keep the "All Classes" option
+            classFilter.innerHTML = '<option value="">All Classes</option>';
+            
+            classes.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls.code;
+                option.textContent = `${cls.code} - ${cls.name || 'Unnamed Class'}`;
+                option.style.backgroundColor = '#1a1a2e';
+                option.style.color = 'white';
+                classFilter.appendChild(option);
+            });
+            
+            // Restore the previous value if it still exists
+            if (currentValue && classes.find(c => c.code === currentValue)) {
+                classFilter.value = currentValue;
+            }
+        }
+        
+        function filterAssignments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const classFilter = document.getElementById('classFilter').value;
+            
+            const tbody = document.getElementById('taskTableBody');
+            const rows = tbody.querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                if (row.classList.contains('class-header')) {
+                    // Show class headers by default
+                    row.style.display = '';
+                } else if (row.dataset.taskId) {
+                    const cells = row.cells;
+                    const name = cells[1].textContent.toLowerCase();
+                    const notes = cells[2].textContent.toLowerCase();
+                    const classCode = cells[0].textContent;
+                    const status = cells[7].textContent;
+                    
+                    let show = true;
+                    
+                    // Search filter
+                    if (searchTerm && !name.includes(searchTerm) && !notes.includes(searchTerm) && !classCode.toLowerCase().includes(searchTerm)) {
+                        show = false;
+                    }
+                    
+                    // Status filter
+                    if (statusFilter) {
+                        if (statusFilter === 'pending' && !status.includes('⏳')) show = false;
+                        if (statusFilter === 'done' && !status.includes('✅')) show = false;
+                        if (statusFilter === 'missed' && !status.includes('❌')) show = false;
+                    }
+                    
+                    // Class filter
+                    if (classFilter && classCode !== classFilter) {
+                        show = false;
+                    }
+                    
+                    if (show) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+            
+            updateFilteredCount();
+        }
+        
+        function updateFilteredCount() {
+            const tbody = document.getElementById('taskTableBody');
+            const rows = tbody.querySelectorAll('tr');
+            
+            let visibleCount = 0;
+            let totalCount = 0;
+            
+            rows.forEach(row => {
+                if (row.dataset.taskId) {
+                    totalCount++;
+                    if (row.style.display !== 'none') {
+                        visibleCount++;
+                    }
+                }
+            });
+            
+            document.getElementById('filteredCount').textContent = visibleCount;
+            document.getElementById('totalCount').textContent = totalCount;
+        }
+        
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('classFilter').value = '';
+            filterAssignments();
+        }
+        
+        // Add event listeners for search and filter
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const classFilter = document.getElementById('classFilter');
+            
+            if (searchInput) searchInput.addEventListener('input', filterAssignments);
+            if (statusFilter) statusFilter.addEventListener('change', filterAssignments);
+            if (classFilter) classFilter.addEventListener('change', filterAssignments);
+        });
+        
+        // Initialize the page - make sure assignments tab is visible
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved data first
+            loadData();
+            
+            // Display all saved tasks
+            displayAllTasks();
+            
+            showTab('assignments');
+            updateClassList();
+            updateClassSelect();
+            updateClassFilter();
+            updateGPACalculator();
+            
+            // Add data management buttons
+            addDataManagementButtons();
+            
+            // Apply dark theme to all select dropdowns
+            applyDarkThemeToDropdowns();
+        });
+        
+        // Function to apply dark theme styling to all dropdowns
+        function applyDarkThemeToDropdowns() {
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                // Add modern-input class if not already present
+                if (!select.classList.contains('modern-input')) {
+                    select.classList.add('modern-input');
+                }
+                
+                // Ensure options have proper styling
+                const options = select.querySelectorAll('option');
+                options.forEach(option => {
+                    option.style.backgroundColor = '#1a1a2e';
+                    option.style.color = 'white';
+                    option.style.border = 'none';
+                });
+            });
+        }
+        
+        // Add data export/import functionality
+        function addDataManagementButtons() {
+            const header = document.querySelector('header');
+            const dataButtons = document.createElement('div');
+            dataButtons.className = 'absolute top-4 right-4 flex space-x-2';
+            dataButtons.innerHTML = `
+                <button onclick="exportData()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                    Export Data
+                </button>
+                <button onclick="importData()" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                    Import Data
+                </button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+            `;
+            header.appendChild(dataButtons);
+        }
+        
+        function exportData() {
+            const data = {
+                classes: classes,
+                tasks: tasks,
+                taskCounter: taskCounter,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `school-planner-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function importData() {
+            document.getElementById('importFile').click();
+        }
+        
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm('This will replace all current data. Are you sure?')) {
+                        classes = data.classes || classes;
+                        tasks = data.tasks || tasks;
+                        taskCounter = data.taskCounter || taskCounter;
+                        
+                        // Reload the display
+                        displayAllTasks();
+                        updateClassList();
+                        updateClassSelect();
+                        updateClassFilter();
+                        updateGPACalculator();
+                        autoSave();
+                        
+                        alert('Data imported successfully!');
+                    }
+                } catch (error) {
+                    alert('Error importing data. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset file input
+        }
+
+        function toggleSettings() {
+            const settingsModal = document.getElementById('settingsModal');
+            if (settingsModal.classList.contains('hidden')) {
+                settingsModal.classList.remove('hidden');
+            } else {
+                settingsModal.classList.add('hidden');
+            }
+        }
+        function clearAllData() {
+            if (confirm('This will clear all data (classes, assignments, goals, schedule). Are you sure?')) {
+                localStorage.clear();
+                classes = [
+                    { code: '1R', name: '', grade: '', weighted: false },
+                    { code: '2R', name: '', grade: '', weighted: false },
+                    { code: '3R', name: '', grade: '', weighted: false },
+                    { code: '4R', name: '', grade: '', weighted: false },
+                    { code: '1G', name: '', grade: '', weighted: false },
+                    { code: '2G', name: '', grade: '', weighted: false },
+                    { code: '3G', name: '', grade: '', weighted: false },
+                    { code: '4G', name: '', grade: '', weighted: false }
+                ];
+                updateClassList();
+                updateClassSelect();
+                updateGPACalculator();
+                document.getElementById('taskTableBody').innerHTML = '';
+                alert('All data cleared successfully!');
+                autoSave();
+            }
+        }
+    </script>
+</body>
+</html> 
