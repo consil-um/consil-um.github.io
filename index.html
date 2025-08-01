@@ -13,6 +13,7 @@
         body {
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             color: #ffffff;
+            min-height: 100vh;
         }
         
         .modern-card {
@@ -30,6 +31,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            white-space: nowrap;
         }
         
         .modern-button:hover {
@@ -89,6 +91,7 @@
             border-radius: 12px;
             color: white;
             backdrop-filter: blur(10px);
+            width: 100%;
         }
         
         .modern-input:focus {
@@ -153,32 +156,220 @@
         .modern-card table tbody tr:hover {
             background: rgba(255, 255, 255, 0.05);
         }
+        
+        /* Responsive table */
+        .responsive-table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .responsive-table table {
+            min-width: 800px;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .header-buttons button {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .header-buttons {
+                width: 100%;
+            }
+        }
+        
+        /* Modal responsive fixes */
+        .modal-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.8) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 999999 !important;
+            padding: 1rem !important;
+            backdrop-filter: blur(5px);
+            pointer-events: auto !important;
+        }
+        
+        .modal-content {
+            background: white !important;
+            border-radius: 0.5rem !important;
+            padding: 1.5rem !important;
+            max-width: 90vw !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            color: black !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+            position: relative !important;
+            z-index: 1000000 !important;
+            transform: translateZ(0) !important;
+            pointer-events: auto !important;
+        }
+        
+        /* Ensure modals are always on top */
+        .modal-overlay.hidden {
+            display: none !important;
+            pointer-events: none !important;
+        }
+        
+        .modal-overlay:not(.hidden) {
+            display: flex !important;
+            pointer-events: auto !important;
+        }
+        
+        /* Button responsive fixes */
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .button-group button {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* Form responsive fixes */
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        /* Class card responsive fixes */
+        .class-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .class-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+        
+        .class-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        .class-card-actions button {
+            flex: 0 0 auto;
+            min-width: 60px;
+            max-width: 100px;
+        }
+        
+        @media (min-width: 768px) {
+            .class-card {
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch;
+            }
+            
+            .class-card-content {
+                flex: 1;
+            }
+            
+            .class-card-actions {
+                flex-shrink: 0;
+                justify-content: flex-end;
+            }
+        }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50">
-    <header class="modern-card mx-4 mt-4 mb-8">
-        <div class="container mx-auto px-6 py-8">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <span class="text-2xl font-bold text-white">C</span>
+<body class="min-h-screen">
+    <header class="modern-card mx-2 sm:mx-4 mt-2 sm:mt-4 mb-4 sm:mb-8">
+        <div class="container mx-auto px-3 sm:px-6 py-4 sm:py-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <span class="text-xl sm:text-2xl font-bold text-white">C</span>
                     </div>
                     <div>
-                        <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Consil</h1>
-                        <p class="text-gray-300 text-sm">Your Personal Academic Command Center</p>
+                        <h1 class="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Consil</h1>
+                        <p class="text-gray-300 text-xs sm:text-sm">Your Personal Academic Command Center</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 header-buttons">
                     <!-- GPA Calculator Button -->
-                    <button onclick="toggleGPACalculator()" class="modern-button px-6 py-3 flex items-center space-x-3">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button onclick="toggleGPACalculator()" class="modern-button px-4 sm:px-6 py-2 sm:py-3 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                         </svg>
                         <span class="font-semibold">GPA</span>
                     </button>
                     <!-- Settings/Utilities Button -->
-                    <button onclick="toggleSettings()" class="accent-button px-6 py-3 flex items-center space-x-3">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button onclick="toggleSettings()" class="accent-button px-4 sm:px-6 py-2 sm:py-3 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
@@ -187,107 +378,15 @@
                 </div>
             </div>
         </div>
-        <!-- GPA Calculator Modal -->
-        <div id="gpaModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">GPA Calculator</h2>
-                    <button onclick="toggleGPACalculator()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-blue-100 rounded-lg p-4">
-                            <h3 class="font-semibold text-blue-800 mb-2">Unweighted GPA</h3>
-                            <div class="text-2xl font-bold text-blue-600" id="unweightedGPA">0.00</div>
-                        </div>
-                        <div class="bg-green-100 rounded-lg p-4">
-                            <h3 class="font-semibold text-green-800 mb-2">Weighted GPA</h3>
-                            <div class="text-2xl font-bold text-green-600" id="weightedGPA">0.00</div>
-                        </div>
-                    </div>
-                    <div class="border-t pt-4">
-                        <h3 class="font-semibold text-gray-800 mb-2">Class Breakdown</h3>
-                        <div id="gpaBreakdown" class="space-y-2 max-h-40 overflow-y-auto">
-                            <p class="text-gray-500 text-sm">No classes with grades yet</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Settings/Utilities Modal -->
-        <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-            <div class="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">Settings & Utilities</h2>
-                    <button onclick="toggleSettings()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="space-y-6">
-                    <!-- Data Management Section -->
-                    <div class="border-b border-gray-200 pb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Data Management</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <button onclick="exportData()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                                <span>Export Data</span>
-                            </button>
-                            <button onclick="importData()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                </svg>
-                                <span>Import Data</span>
-                            </button>
-                        </div>
-                        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
-                    </div>
-                    <!-- Quick Actions Section -->
-                    <div class="border-b border-gray-200 pb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Quick Actions</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <button onclick="resetToDefaultClasses()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                </svg>
-                                <span>Reset Classes</span>
-                            </button>
-                            <button onclick="clearAllData()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                                <span>Clear All Data</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Information Section -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Information</h3>
-                        <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm text-gray-600">
-                            <p><strong>Data Storage:</strong> All data is saved locally on your device</p>
-                            <p><strong>Backup:</strong> Use Export Data to create backups, import data to restore</p>
-                            <p><strong>Privacy:</strong> No data is sent to any server</p>
-                            <p><strong>Browser:</strong> Data persists until browser cache is cleared</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </header>
     
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <!-- Tab Navigation -->
-        <div class="modern-card mb-8">
+        <div class="modern-card mb-4 sm:mb-8">
             <div class="border-b border-gray-700">
-                <nav class="flex space-x-8 px-6" aria-label="Tabs">
-                    <button onclick="showTab('assignments')" id="assignments-tab" class="tab-button active py-6 px-1 font-medium text-lg">
+                <nav class="flex space-x-4 sm:space-x-8 px-3 sm:px-6" aria-label="Tabs">
+                    <button onclick="showTab('assignments')" id="assignments-tab" class="tab-button active py-4 sm:py-6 px-1 font-medium text-base sm:text-lg">
                         📚 Assignments
                     </button>
                 </nav>
@@ -297,71 +396,71 @@
         <!-- Assignments Tab -->
         <div id="assignments-content" class="tab-content hidden">
             <!-- Class Management -->
-            <div class="modern-card p-8 mb-8">
-                <div class="flex items-center justify-between mb-6">
+            <div class="modern-card p-4 sm:p-8 mb-4 sm:mb-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-4">
                     <div>
-                        <h2 class="text-3xl font-bold text-white mb-2">🎓 Class Management</h2>
-                        <p class="text-gray-300">Organize your academic courses</p>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">🎓 Class Management</h2>
+                        <p class="text-gray-300 text-sm sm:text-base">Organize your academic courses</p>
                     </div>
-                    <div class="flex space-x-3">
-                        <button onclick="toggleClassForm()" id="toggleClassFormBtn" class="modern-button px-6 py-3 text-sm">
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 button-group">
+                        <button onclick="toggleClassForm()" id="toggleClassFormBtn" class="modern-button px-4 sm:px-6 py-2 sm:py-3 text-sm">
                             Add Class
                         </button>
-                        <button onclick="resetToDefaultClasses()" class="accent-button px-6 py-3 text-sm">
+                        <button onclick="resetToDefaultClasses()" class="accent-button px-4 sm:px-6 py-2 sm:py-3 text-sm">
                             Reset
                         </button>
                     </div>
                 </div>
                 
-                <form id="classForm" class="space-y-6 hidden" style="display: none;">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <form id="classForm" class="space-y-4 sm:space-y-6 hidden" style="display: none;">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         <div>
                             <label for="classCode" class="block text-sm font-medium text-gray-300 mb-2">Class Code</label>
                             <input type="text" id="classCode" name="classCode" placeholder="e.g., 1R, 2G, 3R" required autocomplete="off"
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                         <div>
                             <label for="className" class="block text-sm font-medium text-gray-300 mb-2">Class Name</label>
                             <input type="text" id="className" name="className" placeholder="e.g., Chemistry, Math" required autocomplete="off"
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                         <div class="flex items-end">
                             <button type="submit" 
-                                    class="success-button px-8 py-3 text-sm font-semibold">
+                                    class="success-button px-6 sm:px-8 py-2 sm:py-3 text-sm font-semibold w-full sm:w-auto">
                                 ➕ Add Class
                             </button>
                         </div>
                     </div>
                 </form>
                 
-                <div class="mt-8">
-                    <h3 class="text-xl font-bold text-white mb-6">📚 Current Classes</h3>
-                    <div id="classList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="mt-6 sm:mt-8">
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">📚 Current Classes</h3>
+                    <div id="classList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 class-grid">
                         <!-- Classes will be listed here -->
                     </div>
                 </div>
             </div>
 
-                    <!-- Quick Add Form -->
-        <div class="modern-card p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h2 class="text-3xl font-bold text-white mb-2">📝 Add Assignments</h2>
-                    <p class="text-gray-300">Add new assignments to your planner</p>
+            <!-- Quick Add Form -->
+            <div class="modern-card p-4 sm:p-8 mb-4 sm:mb-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">📝 Add Assignments</h2>
+                        <p class="text-gray-300 text-sm sm:text-base">Add new assignments to your planner</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="toggleForm()" id="toggleFormBtn" class="modern-button px-4 sm:px-6 py-2 sm:py-3 text-sm">
+                            📋 Show Form
+                        </button>
+                    </div>
                 </div>
-                <div class="flex space-x-3">
-                    <button onclick="toggleForm()" id="toggleFormBtn" class="modern-button px-6 py-3 text-sm">
-                        📋 Show Form
-                    </button>
-                </div>
-            </div>
                 
-                <form id="taskForm" class="space-y-6 hidden" style="display: none;">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <form id="taskForm" class="space-y-4 sm:space-y-6 hidden" style="display: none;">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 form-grid">
                         <div>
                             <label for="taskClass" class="block text-sm font-medium text-gray-300 mb-2">🎓 Class</label>
                             <select id="taskClass" name="taskClass" required 
-                                    class="modern-input w-full px-4 py-3 text-sm">
+                                    class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                                 <option value="">Select Class</option>
                                 <!-- Classes will be populated dynamically -->
                             </select>
@@ -369,12 +468,12 @@
                         <div>
                             <label for="taskTitle" class="block text-sm font-medium text-gray-300 mb-2">📝 Assignment Name</label>
                             <input type="text" id="taskTitle" name="taskTitle" required autocomplete="off"
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                         <div>
                             <label for="taskType" class="block text-sm font-medium text-gray-300 mb-2">📋 Type</label>
                             <select id="taskType" name="taskType" 
-                                    class="modern-input w-full px-4 py-3 text-sm">
+                                    class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                                 <option value="Project">Project</option>
                                 <option value="Homework">Homework</option>
                                 <option value="Final">Final</option>
@@ -386,14 +485,14 @@
                         <div>
                             <label for="points" class="block text-sm font-medium text-gray-300 mb-2">⭐ Points</label>
                             <input type="number" id="points" name="points" value="100" 
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 form-grid">
                         <div>
                             <label for="method" class="block text-sm font-medium text-gray-300 mb-2">📍 Method</label>
                             <select id="method" name="method" 
-                                    class="modern-input w-full px-4 py-3 text-sm">
+                                    class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                                 <option value="In Class">In Class</option>
                                 <option value="Testing Center">Testing Center</option>
                                 <option value="Online">Online</option>
@@ -403,17 +502,17 @@
                         <div>
                             <label for="dueDate" class="block text-sm font-medium text-gray-300 mb-2">📅 Due Date</label>
                             <input type="date" id="dueDate" name="dueDate" required 
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                         <div>
                             <label for="grade" class="block text-sm font-medium text-gray-300 mb-2">📊 Grade</label>
                             <input type="text" id="grade" name="grade" placeholder="A, B, C, D, F or %" autocomplete="off"
-                                   class="modern-input w-full px-4 py-3 text-sm">
+                                   class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                         </div>
                         <div>
                             <label for="status" class="block text-sm font-medium text-gray-300 mb-2">📈 Status</label>
                             <select id="status" name="status" 
-                                    class="modern-input w-full px-4 py-3 text-sm">
+                                    class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                                 <option value="pending">⏳ Pending</option>
                                 <option value="done">✅ Done</option>
                                 <option value="missed">❌ Missed</option>
@@ -423,112 +522,107 @@
                     <div>
                         <label for="notes" class="block text-sm font-medium text-gray-300 mb-2">📋 Notes</label>
                         <input type="text" id="notes" name="notes" placeholder="Additional details..." autocomplete="off"
-                               class="modern-input w-full px-4 py-3 text-sm">
+                               class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
                     </div>
-                    <div class="flex justify-end space-x-3">
+                    <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
                         <button type="button" onclick="toggleForm()" 
-                                class="accent-button px-6 py-3 text-sm font-semibold">
+                                class="accent-button px-4 sm:px-6 py-2 sm:py-3 text-sm font-semibold">
                             ❌ Cancel
                         </button>
                         <button type="submit" 
-                                class="success-button px-8 py-3 text-sm font-semibold">
+                                class="success-button px-6 sm:px-8 py-2 sm:py-3 text-sm font-semibold">
                             ➕ Add Assignment
                         </button>
                     </div>
                 </form>
-        </div>
-
-        <!-- Statistics Bar -->
-        <div class="modern-card p-6 mb-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="stats-card p-6">
-                    <div class="text-3xl font-bold text-green-400 mb-2" id="finishedCount">0</div>
-                    <div class="text-sm text-gray-300">✅ Finished</div>
-                </div>
-                <div class="stats-card p-6">
-                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="pendingCount">0</div>
-                    <div class="text-sm text-gray-300">⏳ Pending</div>
-                </div>
-                <div class="stats-card p-6">
-                    <div class="text-3xl font-bold text-red-400 mb-2" id="missedCount">0</div>
-                    <div class="text-sm text-gray-300">❌ Missed</div>
-                </div>
-                <div class="stats-card p-6">
-                    <div class="text-3xl font-bold text-blue-400 mb-2" id="totalCount">0</div>
-                    <div class="text-sm text-gray-300">📊 Total</div>
-                </div>
             </div>
-        </div>
 
-        <!-- Search and Filter -->
-        <div class="modern-card p-8 mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">🔍 Search Assignments</label>
-                    <input type="text" id="searchInput" placeholder="Search by name, notes, or class..." 
-                           class="modern-input w-full px-4 py-3 text-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">📊 Filter by Status</label>
-                    <select id="statusFilter" class="modern-input w-full px-4 py-3 text-sm">
-                        <option value="">All Status</option>
-                        <option value="pending">⏳ Pending</option>
-                        <option value="done">✅ Done</option>
-                        <option value="missed">❌ Missed</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">🎓 Filter by Class</label>
-                    <select id="classFilter" class="modern-input w-full px-4 py-3 text-sm">
-                        <option value="">All Classes</option>
-                        <!-- Classes will be populated dynamically -->
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <button onclick="clearFilters()" class="accent-button px-6 py-3 text-sm font-semibold">
-                        🗑️ Clear Filters
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Google Sheets Style Table -->
-        <div class="modern-card overflow-hidden">
-            <div class="border-b border-gray-700">
-                <div class="px-8 py-6 flex justify-between items-center">
-                    <h2 class="text-2xl font-bold text-white">📊 Assignment Tracker</h2>
-                    <div class="text-sm text-gray-300">
-                        <span id="filteredCount">0</span> of <span id="totalCount">0</span> assignments shown
+            <!-- Statistics Bar -->
+            <div class="modern-card p-4 sm:p-6 mb-4 sm:mb-8">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center stats-grid">
+                    <div class="stats-card p-4 sm:p-6">
+                        <div class="text-2xl sm:text-3xl font-bold text-green-400 mb-2" id="finishedCount">0</div>
+                        <div class="text-xs sm:text-sm text-gray-300">✅ Finished</div>
+                    </div>
+                    <div class="stats-card p-4 sm:p-6">
+                        <div class="text-2xl sm:text-3xl font-bold text-yellow-400 mb-2" id="pendingCount">0</div>
+                        <div class="text-xs sm:text-sm text-gray-300">⏳ Pending</div>
+                    </div>
+                    <div class="stats-card p-4 sm:p-6">
+                        <div class="text-2xl sm:text-3xl font-bold text-red-400 mb-2" id="missedCount">0</div>
+                        <div class="text-xs sm:text-sm text-gray-300">❌ Missed</div>
+                    </div>
+                    <div class="stats-card p-4 sm:p-6">
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-400 mb-2" id="totalCount">0</div>
+                        <div class="text-xs sm:text-sm text-gray-300">📊 Total</div>
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-white" style="border-collapse: collapse;">
-                    <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">🎓 Class</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📝 Name</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📋 Notes</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📍 Method</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">⭐ Points</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📊 Grade</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📅 When Due</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white border-r border-gray-700">📈 Status</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-white">⚡ Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="taskTableBody" class="text-white">
-                        <!-- Table will be empty until tasks are added -->
-                    </tbody>
-                </table>
+
+            <!-- Search and Filter -->
+            <div class="modern-card p-4 sm:p-8 mb-4 sm:mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">🔍 Search Assignments</label>
+                        <input type="text" id="searchInput" placeholder="Search by name, notes, or class..." 
+                               class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">📊 Filter by Status</label>
+                        <select id="statusFilter" class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
+                            <option value="">All Status</option>
+                            <option value="pending">⏳ Pending</option>
+                            <option value="done">✅ Done</option>
+                            <option value="missed">❌ Missed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">🎓 Filter by Class</label>
+                        <select id="classFilter" class="modern-input px-3 sm:px-4 py-2 sm:py-3 text-sm">
+                            <option value="">All Classes</option>
+                            <!-- Classes will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="clearFilters()" class="accent-button px-4 sm:px-6 py-2 sm:py-3 text-sm font-semibold w-full">
+                            🗑️ Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Sheets Style Table -->
+            <div class="modern-card overflow-hidden">
+                <div class="border-b border-gray-700">
+                    <div class="px-4 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+                        <h2 class="text-xl sm:text-2xl font-bold text-white">📊 Assignment Tracker</h2>
+                        <div class="text-xs sm:text-sm text-gray-300">
+                            <span id="filteredCount">0</span> of <span id="totalCount">0</span> assignments shown
+                        </div>
+                    </div>
+                </div>
+                <div class="responsive-table">
+                    <table class="w-full text-white" style="border-collapse: collapse;">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">🎓 Class</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📝 Name</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📋 Notes</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📍 Method</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">⭐ Points</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📊 Grade</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📅 When Due</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white border-r border-gray-700">📈 Status</th>
+                                <th class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-white">⚡ Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTableBody" class="text-white">
+                            <!-- Table will be empty until tasks are added -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-
-
-
-
-
     </main>
 
     <script>
@@ -645,17 +739,17 @@
                     row.className = isEven ? 'bg-gray-800/30' : 'bg-gray-700/30';
                     
                     row.innerHTML = `
-                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.class}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-white font-medium">${task.name}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${task.notes || ''}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${task.method || ''}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.points || ''}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-white">${task.grade || ''}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-gray-300">${formatDate(task.dueDate)}</td>
-                        <td class="px-6 py-4 border-r border-gray-700 text-white">${getStatusDisplay(task.status)}</td>
-                        <td class="px-6 py-4">
-                            <button onclick="editTask(${task.id})" class="modern-button px-3 py-1 text-xs mr-2">Edit</button>
-                            <button onclick="deleteTask(${task.id})" class="accent-button px-3 py-1 text-xs">Delete</button>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-white">${task.class}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-white font-medium">${task.name}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-gray-300">${task.notes || ''}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-gray-300">${task.method || ''}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-white">${task.points || ''}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-white">${task.grade || ''}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-gray-300">${formatDate(task.dueDate)}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 border-r border-gray-700 text-xs sm:text-sm text-white">${getStatusDisplay(task.status)}</td>
+                        <td class="px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm">
+                            <button onclick="editTask(${task.id})" class="modern-button px-2 sm:px-3 py-1 text-xs mr-1 sm:mr-2">Edit</button>
+                            <button onclick="deleteTask(${task.id})" class="accent-button px-2 sm:px-3 py-1 text-xs">Delete</button>
                         </td>
                     `;
                     
@@ -698,11 +792,11 @@
             if (form.style.display === 'none') {
                 form.style.display = 'block';
                 button.textContent = 'Hide Form';
-                button.className = 'bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm';
+                button.className = 'accent-button px-4 sm:px-6 py-2 sm:py-3 text-sm';
             } else {
                 form.style.display = 'none';
                 button.textContent = 'Show Form';
-                button.className = 'bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-sm';
+                button.className = 'modern-button px-4 sm:px-6 py-2 sm:py-3 text-sm';
             }
         }
         
@@ -768,15 +862,15 @@
             const statusDisplay = getStatusDisplay(taskData.status);
             
             row.innerHTML = `
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.class}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm font-medium">${taskData.name}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.notes}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.method}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.points}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${taskData.grade}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${formatDate(taskData.dueDate)}</td>
-                <td class="px-4 py-3 border-r border-gray-200 text-sm">${statusDisplay}</td>
-                <td class="px-4 py-3 text-sm">
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${taskData.class}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm font-medium">${taskData.name}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${taskData.notes}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${taskData.method}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${taskData.points}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${taskData.grade}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${formatDate(taskData.dueDate)}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700 text-xs sm:text-sm">${statusDisplay}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
                     <button onclick="editTask(${taskData.id})" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs mr-1 hover:bg-yellow-600">Edit</button>
                     <button onclick="deleteTask(${taskData.id})" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">Delete</button>
                 </td>
@@ -944,15 +1038,15 @@
             `;
             
             row.innerHTML = `
-                <td class="px-4 py-3 border-r border-gray-200">${classInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${nameInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${notesInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${methodSelect}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${pointsInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${gradeInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${dueDateInput}</td>
-                <td class="px-4 py-3 border-r border-gray-200">${statusSelect}</td>
-                <td class="px-4 py-3">${actionButtons}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${classInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${nameInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${notesInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${methodSelect}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${pointsInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${gradeInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${dueDateInput}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3 border-r border-gray-700">${statusSelect}</td>
+                <td class="px-3 sm:px-4 py-2 sm:py-3">${actionButtons}</td>
             `;
             
             // Store original content for cancel
@@ -1046,11 +1140,11 @@
             if (form.style.display === 'none') {
                 form.style.display = 'block';
                 button.textContent = 'Cancel';
-                button.className = 'bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 text-sm';
+                button.className = 'accent-button px-4 sm:px-6 py-2 sm:py-3 text-sm';
             } else {
                 form.style.display = 'none';
                 button.textContent = 'Add Class';
-                button.className = 'bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 text-sm';
+                button.className = 'modern-button px-4 sm:px-6 py-2 sm:py-3 text-sm';
             }
         }
         
@@ -1105,8 +1199,6 @@
             
             classes.forEach(cls => {
                 // Determine color based on class code
-                let cardClass = 'modern-card p-6 flex justify-between items-center relative';
-                let codeClass = 'font-bold text-white text-xl';
                 let accentColor = 'from-purple-500 to-pink-500';
                 
                 if (cls.code.includes('R')) {
@@ -1116,22 +1208,22 @@
                 }
                 
                 const classCard = document.createElement('div');
-                classCard.className = cardClass;
+                classCard.className = 'modern-card p-4 sm:p-6 class-card';
                 classCard.innerHTML = `
-                    <div class="flex-1">
+                    <div class="class-card-content">
                         <div class="flex items-center space-x-3 mb-3">
-                            <div class="w-10 h-10 bg-gradient-to-br ${accentColor} rounded-full flex items-center justify-center">
-                                <span class="text-white font-bold text-sm">${cls.code}</span>
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br ${accentColor} rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-xs sm:text-sm">${cls.code}</span>
                             </div>
-                            <div>
-                                <div class="${codeClass}">${cls.code}</div>
-                                <div class="text-sm text-gray-300" id="className-${cls.code}">${cls.name || ''}</div>
+                            <div class="flex-1">
+                                <div class="font-bold text-white text-lg sm:text-xl">${cls.code}</div>
+                                <div class="text-xs sm:text-sm text-gray-300" id="className-${cls.code}">${cls.name || ''}</div>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                             <div class="flex items-center space-x-2">
                                 <label class="text-xs text-gray-400">Grade:</label>
-                                <select onchange="updateClassGrade('${cls.code}', this.value)" class="modern-input text-xs px-3 py-1" autocomplete="off">
+                                <select onchange="updateClassGrade('${cls.code}', this.value)" class="modern-input text-xs px-2 sm:px-3 py-1" autocomplete="off">
                                     <option value="" style="background-color: #1a1a2e; color: white;">Select Grade</option>
                                     <option value="A+" ${cls.grade === 'A+' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">A+</option>
                                     <option value="A" ${cls.grade === 'A' ? 'selected' : ''} style="background-color: #1a1a2e; color: white;">A</option>
@@ -1156,11 +1248,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <button onclick="editClassName('${cls.code}')" class="modern-button px-3 py-2 text-xs">
+                    <div class="class-card-actions">
+                        <button onclick="editClassName('${cls.code}')" class="modern-button px-2 sm:px-3 py-1 sm:py-2 text-xs">
                             Edit
                         </button>
-                        <button onclick="removeClass('${cls.code}')" class="accent-button px-3 py-2 text-xs">
+                        <button onclick="removeClass('${cls.code}')" class="accent-button px-2 sm:px-3 py-1 sm:py-2 text-xs">
                             Remove
                         </button>
                     </div>
@@ -1227,6 +1319,12 @@
             if (modal.classList.contains('hidden')) {
                 modal.classList.remove('hidden');
                 updateGPACalculator();
+                // Add click outside to close
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
             } else {
                 modal.classList.add('hidden');
             }
@@ -1516,6 +1614,21 @@
             
             // Apply dark theme to all select dropdowns
             applyDarkThemeToDropdowns();
+            
+            // Add keyboard event listener for ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const gpaModal = document.getElementById('gpaModal');
+                    const settingsModal = document.getElementById('settingsModal');
+                    
+                    if (!gpaModal.classList.contains('hidden')) {
+                        gpaModal.classList.add('hidden');
+                    }
+                    if (!settingsModal.classList.contains('hidden')) {
+                        settingsModal.classList.add('hidden');
+                    }
+                }
+            });
         });
         
         // Function to apply dark theme styling to all dropdowns
@@ -1613,6 +1726,12 @@
             const settingsModal = document.getElementById('settingsModal');
             if (settingsModal.classList.contains('hidden')) {
                 settingsModal.classList.remove('hidden');
+                // Add click outside to close
+                settingsModal.addEventListener('click', function(e) {
+                    if (e.target === settingsModal) {
+                        settingsModal.classList.add('hidden');
+                    }
+                });
             } else {
                 settingsModal.classList.add('hidden');
             }
@@ -1639,5 +1758,100 @@
             }
         }
     </script>
+    
+    <!-- GPA Calculator Modal -->
+    <div id="gpaModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">GPA Calculator</h2>
+                <button onclick="toggleGPACalculator()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-blue-100 rounded-lg p-4">
+                        <h3 class="font-semibold text-blue-800 mb-2">Unweighted GPA</h3>
+                        <div class="text-2xl font-bold text-blue-600" id="unweightedGPA">0.00</div>
+                    </div>
+                    <div class="bg-green-100 rounded-lg p-4">
+                        <h3 class="font-semibold text-green-800 mb-2">Weighted GPA</h3>
+                        <div class="text-2xl font-bold text-green-600" id="weightedGPA">0.00</div>
+                    </div>
+                </div>
+                <div class="border-t pt-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Class Breakdown</h3>
+                    <div id="gpaBreakdown" class="space-y-2 max-h-40 overflow-y-auto">
+                        <p class="text-gray-500 text-sm">No classes with grades yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings/Utilities Modal -->
+    <div id="settingsModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Settings & Utilities</h2>
+                <button onclick="toggleSettings()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <!-- Data Management Section -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Data Management</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="exportData()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Export Data</span>
+                        </button>
+                        <button onclick="importData()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                            </svg>
+                            <span>Import Data</span>
+                        </button>
+                    </div>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+                </div>
+                <!-- Quick Actions Section -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Quick Actions</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="resetToDefaultClasses()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            <span>Reset Classes</span>
+                        </button>
+                        <button onclick="clearAllData()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            <span>Clear All Data</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Information Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Information</h3>
+                    <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm text-gray-600">
+                        <p><strong>Data Storage:</strong> All data is saved locally on your device</p>
+                        <p><strong>Backup:</strong> Use Export Data to create backups, import data to restore</p>
+                        <p><strong>Privacy:</strong> No data is sent to any server</p>
+                        <p><strong>Browser:</strong> Data persists until browser cache is cleared</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html> 
